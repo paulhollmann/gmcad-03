@@ -1,0 +1,62 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug (GEOMETH)",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "GLUT_ROOT_PATH",
+          "value": "${projectDir}/freeglut",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_MODULE_PATH",
+          "value": "${projectDir}",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_INSTALL_PREFIX",
+          "value": "${projectDir}/out/install/x64-Debug (Standard)",
+          "type": "PATH"
+        }
+      ],
+      "cmakeExecutable": ""
+    },
+    {
+      "name": "x86-Debug (GEOMETH)",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x86" ],
+      "variables": [
+        {
+          "name": "GLUT_ROOT_PATH",
+          "value": "${projectDir}/freeglut",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_MODULE_PATH",
+          "value": "${projectDir}",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_INSTALL_PREFIX",
+          "value": "${projectDir}/out/install/x86-Debug (Standard)",
+          "type": "PATH"
+        }
+      ],
+      "cmakeExecutable": ""
+    }
+  ]
+}
