@@ -106,14 +106,32 @@ Vec4f NURBS_Surface::evaluteDeBoor(const float u, const float v, Vec4f& tangentU
 		return Vec4f();
 	// TODO: evaluate the surface by evaluating curves
 	// ===============================================
-	// evaluate the patch at u in all rows
-	
-	// evaluate curve-at-u at v
-	
-	// evaluate the patch at v in all columns
-	
-	// evaluate curve-at-v at u
+	const size_t size_u = controlPoints.size();
+	const size_t size_v = controlPoints.at(0).size();
 
+	// evaluate the patch at u in all rows
+	std::vector<Vec4f> points_u;
+	for (size_t i = 0; i < size_u; i++)
+	{
+		points_u.push_back(NURBSCurve(controlPoints.at(i), knotVectorU, degree).evaluteDeBoor(u, Vec4f()));
+	}
+	// evaluate curve-at-u at v
+	evaluatedPoint = NURBSCurve(points_u, knotVectorV, degree).evaluteDeBoor(v, tangentV);
+
+
+	// evaluate the patch at v in all columns
+	std::vector<Vec4f> points_v;
+	for (size_t i = 0; i < size_v; i++)
+	{
+		std::vector<Vec4f> nurbs_points;
+		for (size_t j = 0; j < size_u; j++)
+		{
+			nurbs_points.push_back(controlPoints.at(j).at(i));
+		}
+		points_v.push_back(NURBSCurve(nurbs_points, knotVectorV, degree).evaluteDeBoor(v, Vec4f()));
+	}
+	// evaluate curve-at-v at u
+	evaluatedPoint = NURBSCurve(points_v, knotVectorU, degree).evaluteDeBoor(u, tangentU);
 	// ===============================================
 	return evaluatedPoint;
 }

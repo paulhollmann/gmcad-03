@@ -30,6 +30,29 @@ void drawNURBSSurfaceCtrlP(const NURBS_Surface &surface)
 {
 	// TODO: draw control polygon an points (homogenized)
 	// =====================================================
+	glColor3f(0.5f, 0.5f, 0.5f);
+	const size_t size_u = surface.controlPoints.size();
+	const size_t size_v = surface.controlPoints.at(0).size();
+	for (size_t i = 0; i < size_v; i++)
+	{
+		glBegin(GL_LINE_STRIP);
+		for (size_t j = 0; j < size_u; j++)
+		{
+			Vec4f p = surface.controlPoints.at(j).at(i).homogenized();
+			glVertex3f(p.x, p.y, p.z);
+		}
+		glEnd();
+	}
+	for (size_t i = 0; i < size_v; i++)
+	{
+		glBegin(GL_LINE_STRIP);
+		for (size_t j = 0; j < size_u; j++)
+		{
+			Vec4f p = surface.controlPoints.at(i).at(j).homogenized();
+			glVertex3f(p.x, p.y, p.z);
+		}
+		glEnd();
+	}
 	
 
 	// =====================================================
