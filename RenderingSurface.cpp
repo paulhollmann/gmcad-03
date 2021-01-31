@@ -22,8 +22,16 @@ void drawNormals(const std::vector<Vec4f> &points, const std::vector<Vec3f> &nor
 	// TODO: draw normals as lines (homogenized)
 	// note: Vec4f provides a method to homogenize a vector
 	// =====================================================
-	
-
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glBegin(GL_LINES);
+	for (size_t i = 0; i < points.size(); i++)
+	{
+		Vec4f p = points.at(i).homogenized();
+		glVertex3f(p.x, p.y, p.z);
+		Vec3f n = normals.at(i).normalized();
+		glVertex3f(p.x + n.x, p.y + n.y, p.z + n.z);
+	}
+	glEnd();
 	// =====================================================
 }
 void drawNURBSSurfaceCtrlP(const NURBS_Surface &surface)
@@ -67,7 +75,6 @@ void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &norm
 		glColor3f(0.0f,0.0f,1.0f);
 		// TODO: draw surface wire mesh
 		// =====================================================
-		glColor3f(0.5f, 0.5f, 0.5f);
 		
 		for (size_t i = 0; i < numPointsU; i++)
 		{
@@ -84,7 +91,7 @@ void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &norm
 			glBegin(GL_LINE_STRIP);
 			for (size_t j = 0; j < numPointsU; j++)
 			{
-				Vec4f p = points.at(j * numPointsU + i).homogenized();
+				Vec4f p = points.at(j * numPointsV + i).homogenized();
 				glVertex3f(p.x, p.y, p.z);
 			}
 			glEnd();

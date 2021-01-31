@@ -115,21 +115,24 @@ void calculatePoints()
 	// emplace the resulting NURBS, points and normals into the vectors
 	// =====================================================
 
-	for (float u = 0; u <= 1; u += 0.1f)
+	for (float u = 0; u <= 1.0f; u += 0.1f)
 	{
 		numPointsU++;
 		numPointsV = 0;
 
 		std::vector<Vec4f> temppoints;
-		for (float v = 0; v <= 1; v += 0.1f)
+		for (float v = 0; v <= 1.0f; v += 0.05f)
 		{
 			numPointsV++;
 			Vec4f tangentU;
 			Vec4f tangentV;
 			points.push_back(nurbs.evaluteDeBoor(u, v, tangentU, tangentV));
 
-			//some code for the crossproduct
-			Vec3f normal = Vec3f(tangentU.x, tangentU.y, tangentU.z);
+			// the crossproduct
+			Vec4f tu = tangentU.homogenized();
+			Vec4f tv = tangentV.homogenized();
+
+			Vec3f normal = Vec3f(tu.y * tv.z - tu.z * tv.y, tu.z * tv.x - tu.x * tv.z, tu.x * tv.y - tu.y * tv.x);
 			normals.push_back(normal);
 		}
 	}
@@ -187,7 +190,8 @@ void drawObjects()
 			drawNURBSSurfaceCtrlP(nurbs);
 		// TODO: draw nurbs surface
 		// ========================
-
+		if(enableNormals)
+			drawNormals(points, normals);
 		drawNURBSSurface(points, normals, numPointsU, numPointsV, false, true);
 
 		// ========================
@@ -257,7 +261,12 @@ void keyPressed(unsigned char key, int x, int y)
 		break;
 		// TODO: place custom functions on button events here to present your results
 		// ==========================================================================
-
+	case 'n':
+	case 'N':
+		enableNormals = !enableNormals;
+		glutPostRedisplay();
+		std::cout << "Surface normals: " << (enableNormals ? "enabled" : "disabled") << "\n";
+		break;
 
 		// ==========================================================================
 	}
@@ -311,6 +320,7 @@ void coutHelp()
 	std::cout << "H: show this (H)elp file" << std::endl;
 	std::cout << "R: (R)eset view" << std::endl;
 	std::cout << "C: toggle surface (C)ontrol polygon" << std::endl;
+	std::cout << "N: toggle surface (N)normals" << std::endl;
 	std::cout << "E: switch (E)valuation visualization (none,u-first,v-fist)" << std::endl;
 	std::cout << "A: switch between NURBS surfaces" << std::endl;
 	// TODO: update help text according to your changes

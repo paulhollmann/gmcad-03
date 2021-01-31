@@ -24,6 +24,7 @@
 
 int enableEval;
 bool enableCtrl;
+bool enableNormals;
 int nurbsSelect; // for switching between the NURBS Surfaces
 float u, v; // evaluation point on the Surface
 
@@ -35,7 +36,7 @@ unsigned int nrPoints;
 std::vector<Vec4f> points;
 std::vector<Vec3f> normals;
 size_t numPointsU = 0;
-size_t numPointsV;
+size_t numPointsV = 0;
 
 // ===========================================================
 
