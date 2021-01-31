@@ -32,7 +32,10 @@ unsigned int nrPoints;
 
 // TODO: define global variables here to present the exercises
 // ===========================================================
-
+std::vector<Vec4f> points;
+std::vector<Vec3f> normals;
+size_t numPointsU = 0;
+size_t numPointsV;
 
 // ===========================================================
 

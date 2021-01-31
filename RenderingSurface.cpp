@@ -67,7 +67,28 @@ void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &norm
 		glColor3f(0.0f,0.0f,1.0f);
 		// TODO: draw surface wire mesh
 		// =====================================================
+		glColor3f(0.5f, 0.5f, 0.5f);
 		
+		for (size_t i = 0; i < numPointsU; i++)
+		{
+			glBegin(GL_LINE_STRIP);
+			for (size_t j = 0; j < numPointsV; j++)
+			{
+				Vec4f p = points.at(i * numPointsV + j).homogenized();
+				glVertex3f(p.x, p.y, p.z);
+			}
+			glEnd();
+		}
+		for (size_t i = 0; i < numPointsV; i++)
+		{
+			glBegin(GL_LINE_STRIP);
+			for (size_t j = 0; j < numPointsU; j++)
+			{
+				Vec4f p = points.at(j * numPointsU + i).homogenized();
+				glVertex3f(p.x, p.y, p.z);
+			}
+			glEnd();
+		}
 
 		// =====================================================
 

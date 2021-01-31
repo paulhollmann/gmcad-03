@@ -115,7 +115,24 @@ void calculatePoints()
 	// emplace the resulting NURBS, points and normals into the vectors
 	// =====================================================
 
+	for (float u = 0; u <= 1; u += 0.1f)
+	{
+		numPointsU++;
+		numPointsV = 0;
 
+		std::vector<Vec4f> temppoints;
+		for (float v = 0; v <= 1; v += 0.1f)
+		{
+			numPointsV++;
+			Vec4f tangentU;
+			Vec4f tangentV;
+			points.push_back(nurbs.evaluteDeBoor(u, v, tangentU, tangentV));
+
+			//some code for the crossproduct
+			Vec3f normal = Vec3f(tangentU.x, tangentU.y, tangentU.z);
+			normals.push_back(normal);
+		}
+	}
 	// =====================================================
 
 }
@@ -171,6 +188,7 @@ void drawObjects()
 		// TODO: draw nurbs surface
 		// ========================
 
+		drawNURBSSurface(points, normals, numPointsU, numPointsV, false, true);
 
 		// ========================
 	}
