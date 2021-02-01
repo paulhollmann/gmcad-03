@@ -40,6 +40,7 @@ int main(int argc, char** argv)
 	glutKeyboardFunc(keyPressed);
 	// further initializations
 	setDefaults();
+	createNURBSs();
 	calculatePoints();
 	initializeGL();
 	// activate main loop
@@ -102,26 +103,88 @@ void initializeGL()
 	coutHelp();
 }
 
+void createNURBSs() {
+	NURBSs.clear();
+	resolutionU.clear();
+	resolutionV.clear();
+
+	// objects (test surface via empty constructor)
+	NURBS_Surface nurbs1 = NURBS_Surface();
+	NURBSs.push_back(nurbs1);
+	resolutionU.push_back(0.05f);
+	resolutionV.push_back(0.05f);
+
+	NURBS_Surface nurbs2;
+	{
+		std::vector<std::vector<Vec4f>> controlPoints;
+		std::vector<float> knotVectorU;
+		std::vector<float> knotVectorV;
+		unsigned int degree = 2;;
+		std::vector<Vec4f> pRow1;
+		pRow1.push_back(Vec4f(0.0f, 2.0f, 0.0f, 1.0f));
+		pRow1.push_back(Vec4f(1.0f, 2.0f, 0.0f, 1.0f));
+		pRow1.push_back(Vec4f(1.0f, 0.0f, 0.0f, 1.0f) * 2.0f);
+		controlPoints.push_back(pRow1);
+
+		std::vector<Vec4f> pRow2;
+		pRow2.push_back(Vec4f(0.0f, 2.0f, -1.0f, 1.0f));
+		pRow2.push_back(Vec4f(2.0f, 2.0f, -1.0f, 1.0f) * 6.0f);
+		pRow2.push_back(Vec4f(2.0f, 0.0f, -1.0f, 1.0f) * 2.0f);
+		controlPoints.push_back(pRow2);
+
+		std::vector<Vec4f> pRow3;
+		pRow3.push_back(Vec4f(0.0f, 1.0f, -2.0f, 1.0f));
+		pRow3.push_back(Vec4f(5.0f, 1.0f, -2.0f, 1.0f));
+		pRow3.push_back(Vec4f(7.0f, 4.0f, -2.0f, 1.0f) * 2.0f);
+		controlPoints.push_back(pRow3);
+
+		knotVectorU.push_back(0.0f);
+		knotVectorU.push_back(0.0f);
+		knotVectorU.push_back(0.0f);
+		knotVectorU.push_back(1.0f);
+		knotVectorU.push_back(1.0f);
+		knotVectorU.push_back(1.0f);
+
+		knotVectorV.push_back(0.0f);
+		knotVectorV.push_back(0.0f);
+		knotVectorV.push_back(0.0f);
+		knotVectorV.push_back(1.0f);
+		knotVectorV.push_back(1.0f);
+		knotVectorV.push_back(1.0f);
+
+
+		nurbs2 = NURBS_Surface(controlPoints, knotVectorU, knotVectorV, degree);
+		NURBSs.push_back(nurbs2);
+		resolutionU.push_back(0.01f);
+		resolutionV.push_back(0.01f);
+	}
+	
+	
+	
+}
+
 void calculatePoints()
 {
-	NURBSs.clear();
-	// objects (test surface via empty constructor)
-	auto &nurbs = NURBS_Surface();
-	std::cout << nurbs << std::endl;
-	NURBSs.emplace_back(nurbs);
-	
 	// TODO: create two NURBS surfaces with different degrees k >= 2
 	// calculate the points and their normals
 	// emplace the resulting NURBS, points and normals into the vectors
 	// =====================================================
+	
+	points.clear();
+	normals.clear();
+	numPointsU = 0;
+	numPointsV = 0;
+	NURBS_Surface nurbs = NURBSs.at(nurbsSelect);
 
-	for (float u = 0; u <= 1.0f; u += 0.1f)
+	std::cout << "Calculating ";
+
+	for (float u = 0; u <= 1.0f; u += resolutionU.at(nurbsSelect))
 	{
 		numPointsU++;
 		numPointsV = 0;
-
+		std::cout << ".";
 		std::vector<Vec4f> temppoints;
-		for (float v = 0; v <= 1.0f; v += 0.05f)
+		for (float v = 0; v <= 1.0f; v += resolutionV.at(nurbsSelect))
 		{
 			numPointsV++;
 			Vec4f tangentU;
@@ -136,8 +199,9 @@ void calculatePoints()
 			normals.push_back(normal);
 		}
 	}
+	std::cout << " Done !" << std::endl;
 	// =====================================================
-
+	
 }
 
 void reshape(GLint width, GLint height)
@@ -178,7 +242,7 @@ void drawObjects()
 	if (NURBSs.empty() || nurbsSelect >= NURBSs.size() || nurbsSelect < 0)
 		return;
 
-	NURBS_Surface &nurbs = NURBSs[nurbsSelect];
+	NURBS_Surface nurbs = NURBSs.at(nurbsSelect);
 
 
 	if(nurbs.controlPoints.size() > 1)
@@ -258,6 +322,7 @@ void keyPressed(unsigned char key, int x, int y)
 	case 'a':
 	case 'A':
 		nurbsSelect = (nurbsSelect + 1) % NURBSs.size();
+		calculatePoints();
 		glutPostRedisplay();
 		break;
 		// TODO: place custom functions on button events here to present your results

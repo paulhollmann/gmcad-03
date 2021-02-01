@@ -113,15 +113,35 @@ void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &norm
 			glBegin(GL_TRIANGLES);
 			for (size_t j = 0; j < numPointsV - 1; j++)
 			{
-				Vec4f p1 = points.at(i * numPointsV + j).homogenized();
-				Vec4f p2 = points.at((i + 1) * numPointsV + j).homogenized();
-				Vec4f p3 = points.at(i * numPointsV + (j + 1)).homogenized();
-				Vec3f n = normals.at(i * numPointsV + j);
+				size_t n1 = i * numPointsV + j;
+				size_t n2 = (i + 1)* numPointsV + j;
+				size_t n3 = i * numPointsV + (j + 1);
+				size_t n4 = (i + 1) * numPointsV + (j + 1);
+				Vec4f p1 = points.at(n1).homogenized();
+				Vec4f p2 = points.at(n2).homogenized();
+				Vec4f p3 = points.at(n3).homogenized();
+				Vec4f p4 = points.at(n4).homogenized();
+
+				Vec3f n = normals.at(n1);
+				n = n + normals.at(n2);
+				n = n + normals.at(n3);
+				n.normalize();
+
 				glNormal3f(n.x, n.y, n.z);
 				glVertex3f(p1.x, p1.y, p1.z);
 				glVertex3f(p2.x, p2.y, p2.z);
 				glVertex3f(p3.x, p3.y, p3.z);
+
+				n = normals.at(n2);
+				n = n + normals.at(n3);
+				n = n + normals.at(n4);
+				n.normalize();
+
+				glVertex3f(p2.x, p2.y, p2.z);
+				glVertex3f(p3.x, p3.y, p3.z);
+				glVertex3f(p4.x, p4.y, p4.z);
 			}
+
 			glEnd();
 		}
 		
