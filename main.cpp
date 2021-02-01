@@ -192,7 +192,8 @@ void drawObjects()
 		// ========================
 		if(enableNormals)
 			drawNormals(points, normals);
-		drawNURBSSurface(points, normals, numPointsU, numPointsV, false, true);
+		if (enableWireframe || enableSurf)
+			drawNURBSSurface(points, normals, numPointsU, numPointsV, enableSurf, enableWireframe);
 
 		// ========================
 	}
@@ -267,6 +268,18 @@ void keyPressed(unsigned char key, int x, int y)
 		glutPostRedisplay();
 		std::cout << "Surface normals: " << (enableNormals ? "enabled" : "disabled") << "\n";
 		break;
+	case 'w':
+	case 'W':
+		enableWireframe = !enableWireframe;
+		glutPostRedisplay();
+		std::cout << "Surface wireframe: " << (enableWireframe ? "enabled" : "disabled") << "\n";
+		break;
+	case 's':
+	case 'S':
+		enableSurf = !enableSurf;
+		glutPostRedisplay();
+		std::cout << "Surface normals: " << (enableSurf ? "enabled" : "disabled") << "\n";
+		break;
 
 		// ==========================================================================
 	}
@@ -321,6 +334,8 @@ void coutHelp()
 	std::cout << "R: (R)eset view" << std::endl;
 	std::cout << "C: toggle surface (C)ontrol polygon" << std::endl;
 	std::cout << "N: toggle surface (N)normals" << std::endl;
+	std::cout << "W: toggle surface (W)ireframe" << std::endl;
+	std::cout << "S: toggle surface (S)urf" << std::endl;
 	std::cout << "E: switch (E)valuation visualization (none,u-first,v-fist)" << std::endl;
 	std::cout << "A: switch between NURBS surfaces" << std::endl;
 	// TODO: update help text according to your changes

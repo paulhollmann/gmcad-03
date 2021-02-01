@@ -107,6 +107,23 @@ void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &norm
 		glColor3f(0.99f, 0.99f, 0.99f);
 		// TODO: draw surface with quads
 		// =====================================================
+
+		for (size_t i = 0; i < numPointsU - 1; i++)
+		{
+			glBegin(GL_TRIANGLES);
+			for (size_t j = 0; j < numPointsV - 1; j++)
+			{
+				Vec4f p1 = points.at(i * numPointsV + j).homogenized();
+				Vec4f p2 = points.at((i + 1) * numPointsV + j).homogenized();
+				Vec4f p3 = points.at(i * numPointsV + (j + 1)).homogenized();
+				Vec3f n = normals.at(i * numPointsV + j);
+				glNormal3f(n.x, n.y, n.z);
+				glVertex3f(p1.x, p1.y, p1.z);
+				glVertex3f(p2.x, p2.y, p2.z);
+				glVertex3f(p3.x, p3.y, p3.z);
+			}
+			glEnd();
+		}
 		
 		
 		// =====================================================

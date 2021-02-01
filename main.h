@@ -25,6 +25,8 @@
 int enableEval;
 bool enableCtrl;
 bool enableNormals;
+bool enableWireframe;
+bool enableSurf = true;
 int nurbsSelect; // for switching between the NURBS Surfaces
 float u, v; // evaluation point on the Surface
 
