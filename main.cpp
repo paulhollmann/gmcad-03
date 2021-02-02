@@ -158,6 +158,85 @@ void createNURBSs() {
 		resolutionU.push_back(0.01f);
 		resolutionV.push_back(0.01f);
 	}
+
+	NURBS_Surface nurbs3;
+	{
+		std::vector<std::vector<Vec4f>> controlPoints;
+		std::vector<float> knotVectorU;
+		std::vector<float> knotVectorV;
+		unsigned int degree = 2;;
+
+
+
+		std::vector<Vec4f> pRow2;
+		pRow2.push_back(Vec4f(0.0f, 0.0f, 1.0f, 1.0f) * 1.0f);
+		pRow2.push_back(Vec4f(-1.0f, 0.0f, 1.0f, 1.0f) * 0.7071f);
+		pRow2.push_back(Vec4f(-1.0f, 0.5f, 1.0f, 1.0f) * 1.0f);
+		pRow2.push_back(Vec4f(-1.0f, 1.0f, 1.0f, 1.0f) * 0.7071f);
+		pRow2.push_back(Vec4f(0.0f, 1.0f, 1.0f, 1.0f) * 1.0f);
+		pRow2.push_back(Vec4f(1.0f, 1.0f, 1.0f, 1.0f) * 0.7071f);
+		pRow2.push_back(Vec4f(1.0f, 0.5f, 1.0f, 1.0f) * 1.0f);
+		pRow2.push_back(Vec4f(1.0f, 0.0f, 1.0f, 1.0f) * 0.7071f);
+		pRow2.push_back(Vec4f(0.0f, 0.0f, 1.0f, 1.0f) * 1.0f);
+		controlPoints.push_back(pRow2);
+
+
+		std::vector<Vec4f> pRow1;
+		pRow1.push_back(Vec4f(0.0f, 0.0f, 0.0f, 1.0f) * 1.0f);
+		pRow1.push_back(Vec4f(-1.0f, 0.0f, 0.0f, 1.0f) * 0.7071f);
+		pRow1.push_back(Vec4f(-1.0f, 0.5f, 0.0f, 1.0f) * 1.0f);
+		pRow1.push_back(Vec4f(-1.0f, 1.0f, 0.0f, 1.0f) * 0.7071f);
+		pRow1.push_back(Vec4f(0.0f, 1.0f, 0.0f, 1.0f) * 1.0f);
+		pRow1.push_back(Vec4f(1.0f, 1.0f, 0.0f, 1.0f) * 0.7071f);
+		pRow1.push_back(Vec4f(1.0f, 0.5f, 0.0f, 1.0f) * 1.0f);
+		pRow1.push_back(Vec4f(1.0f, 0.0f, 0.0f, 1.0f) * 0.7071f);
+		pRow1.push_back(Vec4f(0.0f, 0.0f, 0.0f, 1.0f) * 1.0f);
+		controlPoints.push_back(pRow1);
+
+
+
+		std::vector<Vec4f> pRow3;
+		pRow3.push_back(Vec4f(0.0f, 0.0f, -1.0f, 1.0f) * 1.0f);
+		pRow3.push_back(Vec4f(-1.0f, 0.0f, -1.0f, 1.0f) * 0.7071f);
+		pRow3.push_back(Vec4f(-1.0f, 0.5f, -1.0f, 1.0f) * 1.0f);
+		pRow3.push_back(Vec4f(-1.0f, 1.0f, -1.0f, 1.0f) * 0.7071f);
+		pRow3.push_back(Vec4f(0.0f, 1.0f, -1.0f, 1.0f) * 1.0f);		
+		pRow3.push_back(Vec4f(1.0f, 1.0f, -1.0f, 1.0f) * 0.7071f);
+		pRow3.push_back(Vec4f(1.0f, 0.5f, -1.0f, 1.0f) * 1.0f);
+		pRow3.push_back(Vec4f(1.0f, 0.0f, -1.0f, 1.0f) * 0.7071f);
+		pRow3.push_back(Vec4f(0.0f, 0.0f, -1.0f, 1.0f) * 1.0f);
+		controlPoints.push_back(pRow3);
+
+		knotVectorU.push_back(0.0f);
+		knotVectorU.push_back(0.0f);
+		knotVectorU.push_back(0.0f);
+		knotVectorU.push_back(0.25f);
+		knotVectorU.push_back(0.25f);
+		knotVectorU.push_back(0.5f);
+		knotVectorU.push_back(0.5f);
+		knotVectorU.push_back(0.75f);
+		knotVectorU.push_back(0.75f);
+		knotVectorU.push_back(1.0f);
+		knotVectorU.push_back(1.0f);
+		knotVectorU.push_back(1.0f);
+
+
+
+
+		knotVectorV.push_back(0.0f);
+		knotVectorV.push_back(0.0f);
+		knotVectorV.push_back(0.0f);
+		knotVectorV.push_back(1.0f);
+		knotVectorV.push_back(1.0f);
+		knotVectorV.push_back(1.0f);
+
+
+		nurbs2 = NURBS_Surface(controlPoints, knotVectorU, knotVectorV, degree);
+		NURBSs.push_back(nurbs2);
+		resolutionU.push_back(0.01f);
+		resolutionV.push_back(0.01f);
+	
+	}
 	
 	
 	

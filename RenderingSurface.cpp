@@ -51,10 +51,10 @@ void drawNURBSSurfaceCtrlP(const NURBS_Surface &surface)
 		}
 		glEnd();
 	}
-	for (size_t i = 0; i < size_v; i++)
+	for (size_t i = 0; i < size_u; i++)
 	{
 		glBegin(GL_LINE_STRIP);
-		for (size_t j = 0; j < size_u; j++)
+		for (size_t j = 0; j < size_v; j++)
 		{
 			Vec4f p = surface.controlPoints.at(i).at(j).homogenized();
 			glVertex3f(p.x, p.y, p.z);
