@@ -38,7 +38,8 @@ void drawNURBSSurfaceCtrlP(const NURBS_Surface &surface)
 {
 	// TODO: draw control polygon an points (homogenized)
 	// =====================================================
-	glColor3f(0.5f, 0.5f, 0.5f);
+	glColor3f(0.9f, 0.01f, 0.99f);
+
 	const size_t size_u = surface.controlPoints.size();
 	const size_t size_v = surface.controlPoints.at(0).size();
 	for (size_t i = 0; i < size_v; i++)
@@ -66,7 +67,7 @@ void drawNURBSSurfaceCtrlP(const NURBS_Surface &surface)
 	// =====================================================
 }
 
-void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &normals, const int numPointsU, const int numPointsV, bool enableSurf, bool enableWire)
+void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &normals, const size_t numPointsU, const size_t numPointsV, bool enableSurf, bool enableWire)
 {
 
 	if (enableWire)
@@ -156,6 +157,7 @@ void evaluateNURBSSurface(const NURBS_Surface &surface,float u, float v, bool vF
 	Vec3f colorCurveU = {1.0f, 0.5f, 0.0f};
 	Vec3f colorCurveV = {0.0f, 0.8f, 0.0f};
 	Vec3f colorPoint =  {0.0f, 0.5f, 1.0f};
+
 	// TODO: implement the visualization of the point evaluation starting with u and v direction whether vFirst is true or not
 	// note: use the NURBSCurve class and the CurveRendering functions 'drawNURBSCtrlPolygon_H' 'drawNURBS_H'
 	// =====================================================
@@ -180,7 +182,14 @@ void evaluateNURBSSurface(const NURBS_Surface &surface,float u, float v, bool vF
 		for (size_t i = 0; i < size_u; i++)
 		{
 			NURBSCurve curve = NURBSCurve(surface.controlPoints.at(i), surface.knotVectorU, surface.degree);
-			renderNURBSEvaluation(curve, u);
+
+			//renderNURBSEvaluation(curve, u);
+			
+
+			drawNURBSCtrlPolygon_H(curve, colorPolyU);
+
+			drawNURBS_H(curve, colorCurveU);
+
 			points_u.push_back(curve.evaluteDeBoor(u, Vec4f()));
 		}
 
@@ -189,11 +198,23 @@ void evaluateNURBSSurface(const NURBS_Surface &surface,float u, float v, bool vF
 
 		NURBSCurve curve = NURBSCurve(points_u, surface.knotVectorV, surface.degree);
 
-		renderNURBSEvaluation(curve, v);
+		//renderNURBSEvaluation(curve, v);
+
+		drawNURBSCtrlPolygon_H(curve, colorPolyV);
+
+		drawNURBS_H(curve, colorCurveV);
 
 
 		// 3. draw the evaluated surface point
-		curve.evaluteDeBoor(v, Vec4f());
+		
+
+		glColor3fv(&colorPoint.x);
+		glBegin(GL_POINTS);
+		{
+			Vec4f p = curve.evaluteDeBoor(v, Vec4f()).homogenized();
+			glVertex3f(p.x, p.y, p.z);
+		}
+		glEnd();
 	}
 
 	// =====================================================

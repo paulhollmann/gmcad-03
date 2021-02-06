@@ -20,7 +20,7 @@ void drawSurfacePoints(const std::vector<Vec4f> &points);
 void drawNormals(const std::vector<Vec4f> &points, const std::vector<Vec3f> &normals);
 void drawNURBSSurfaceCtrlP(const NURBS_Surface &surface);
 
-void drawNURBSSurface(std::vector<Vec4f> &points, const std::vector<Vec3f> &normals, const int numPointsU, const int numPointsV, bool enableSurf, bool enableWire);
+void drawNURBSSurface(std::vector<Vec4f>& points, const std::vector<Vec3f>& normals, const size_t numPointsU, const size_t numPointsV, bool enableSurf, bool enableWire);
 void evaluateNURBSSurface(const NURBS_Surface &surface, float u, float v, bool vFirst = true);
 
 #endif //
