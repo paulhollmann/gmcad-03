@@ -450,6 +450,27 @@ void keyPressed(unsigned char key, int x, int y)
 		glutPostRedisplay();
 		std::cout << "Surface normals: " << (enableSurf ? "enabled" : "disabled") << "\n";
 		break;
+	case '8':
+		u += 0.1f;
+		if (u > 1) u = 1.0f;
+		glutPostRedisplay();
+		break;
+	case '2':
+		u -= 0.1f;
+		if (u < 0) u = 0.0f;
+		glutPostRedisplay();
+		break;
+	case '6':
+		v += 0.1f;
+		if (v > 1) v = 1.0f;
+		glutPostRedisplay();
+		break;
+	case '4':
+		v -= 0.1f;
+		if (v < 0) v = 0.0f;
+		glutPostRedisplay();
+		break;
+
 
 		// ==========================================================================
 	}
@@ -506,7 +527,7 @@ void coutHelp()
 	std::cout << "N: toggle surface (N)normals" << std::endl;
 	std::cout << "W: toggle surface (W)ireframe" << std::endl;
 	std::cout << "S: toggle surface (S)urf" << std::endl;
-	std::cout << "E: switch (E)valuation visualization (none,u-first,v-fist)" << std::endl;
+	std::cout << "E: switch (E)valuation visualization (none,u-first,v-fist)" << std::endl << "[ 8: u+ | 2: u- |  6: v+ | 4: v- ]" << std::endl;
 	std::cout << "A: switch between NURBS surfaces" << std::endl;
 	// TODO: update help text according to your changes
 	// ================================================

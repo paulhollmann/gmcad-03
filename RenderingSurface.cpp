@@ -168,11 +168,46 @@ void evaluateNURBSSurface(const NURBS_Surface &surface,float u, float v, bool vF
 	if (vFirst)
 	{
 		// 1. draw the nurbs curves and its control polygons first in v direction
-		   
+		std::vector<Vec4f> points_v;
+		for (size_t i = 0; i < size_v; i++)
+		{
+			std::vector<Vec4f> points_u;
+			for (size_t j = 0; j < size_u; j++)
+			{
+				points_u.push_back(surface.controlPoints.at(j).at(i));
+			}
+
+			NURBSCurve curve = NURBSCurve(points_u, surface.knotVectorV, surface.degree);
+
+
+			drawNURBSCtrlPolygon_H(curve, colorPolyV);
+
+			drawNURBS_H(curve, colorCurveV);
+
+			points_v.push_back(curve.evaluteDeBoor(v, Vec4f()));
+		}
+
 		// 2. then the resulting curve and its control polygon at v in u direction.
 		   
+		NURBSCurve curve = NURBSCurve(points_v, surface.knotVectorU, surface.degree);
+
+		//renderNURBSEvaluation(curve, v);
+
+		drawNURBSCtrlPolygon_H(curve, colorPolyU);
+
+		drawNURBS_H(curve, colorCurveU);
+
+
 		// 3. draw the evaluated surface point
-		
+	
+		glColor3fv(&colorPoint.x);
+		glBegin(GL_POINTS);
+		{
+			Vec4f p = curve.evaluteDeBoor(u, Vec4f()).homogenized();
+			glVertex3f(p.x, p.y, p.z);
+		}
+		glEnd();
+
 	}
 	else
 	{
