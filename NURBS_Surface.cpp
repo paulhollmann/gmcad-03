@@ -142,16 +142,20 @@ std::ostream& operator<< (std::ostream& os, NURBS_Surface& nurbsSurface)
 	os << "NURBS surface, degree " << nurbsSurface.degree << "\n";
 	// control points
 	os << "  " << nurbsSurface.controlPoints.size() << " x " << nurbsSurface.controlPoints[0].size() << " controlPoints:\n";
-	for (unsigned int i = 0; i < nurbsSurface.controlPoints.size(); ++i)
-		for (unsigned int j = 0; j < nurbsSurface.controlPoints[i].size(); ++j)
-			os << "    " << nurbsSurface.controlPoints[i][j] << "\n";
+	if (nurbsSurface.controlPoints.size() * nurbsSurface.controlPoints[0].size() > 30) os << "  [hidden]" << "\n";
+	else 
+	{
+		for (unsigned int i = 0; i < nurbsSurface.controlPoints.size(); ++i)
+			for (unsigned int j = 0; j < nurbsSurface.controlPoints[i].size(); ++j)
+				os << "    " << nurbsSurface.controlPoints[i][j] << "\n";
+	}
 	// knot vector U 
 	os << "  " << nurbsSurface.knotVectorU.size() << " knotVectorU: ";
 	for (unsigned int i = 0; i < nurbsSurface.knotVectorU.size(); ++i) os << nurbsSurface.knotVectorU[i] << ", ";
 	os << "\n";
 	// knot vector V 
 	os << "  " << nurbsSurface.knotVectorV.size() << " knotVectorV: ";
-	for (unsigned int i = 0; i < nurbsSurface.knotVectorU.size(); ++i) os << nurbsSurface.knotVectorV[i] << ", ";
+	for (unsigned int i = 0; i < nurbsSurface.knotVectorV.size(); ++i) os << nurbsSurface.knotVectorV[i] << ", ";
 	os << "\n";
 	// knot vector verification
 	nurbsSurface.isValidNURBS();

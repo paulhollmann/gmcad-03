@@ -281,13 +281,16 @@ void calculatePoints()
 	numPointsV = 0;
 	NURBS_Surface nurbs = NURBSs.at(nurbsSelect);
 
-	std::cout << "Calculating ";
+	std::cout << std::endl << nurbs << "Calculating ";
+
+	size_t triggerpoints = ((1 / resolutionU.at(nurbsSelect)) * (1 / resolutionV.at(nurbsSelect))) / 25 ;
+	size_t currnumpoints = 0;
 
 	for (float u = 0; u <= 1.0f; u += resolutionU.at(nurbsSelect))
 	{
 		numPointsU++;
 		numPointsV = 0;
-		std::cout << ".";
+
 		std::vector<Vec4f> temppoints;
 		for (float v = 0; v <= 1.0f; v += resolutionV.at(nurbsSelect))
 		{
@@ -302,6 +305,8 @@ void calculatePoints()
 
 			Vec3f normal = Vec3f(tu.y * tv.z - tu.z * tv.y, tu.z * tv.x - tu.x * tv.z, tu.x * tv.y - tu.y * tv.x);
 			normals.push_back(normal);
+			currnumpoints++;
+			if (currnumpoints % triggerpoints == 0) std::cout << ".";
 		}
 	}
 	std::cout << " Done !" << std::endl;
